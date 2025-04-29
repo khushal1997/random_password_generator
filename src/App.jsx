@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import './App.css'
 
 
@@ -8,6 +8,15 @@ function App(){
   const [password,SetPassword] = useState("")
   const [number,isNumberAllowed] = useState(false)
   const [character,isCharacterAllowed] = useState(false)
+  
+  //useRefhook
+
+  const passwordRef = useRef(null)
+
+  const copytoclipboard = useCallback(()=>{
+    passwordRef.current?.select()
+    window.navigator.clipboard.writeText(password)
+  },[password])
 
   const generatePassword=useCallback(()=>{
     let newpass=""
@@ -36,8 +45,10 @@ function App(){
         readOnly
         value={password}
         onLoad={generatePassword}
+        ref={passwordRef}
         />
-        <button className='mx-2 border boder-white p-2 rounded bg-blue-800 w-30 shrink-0'>
+        <button className='mx-2 border boder-white p-2 rounded bg-blue-800 w-30 shrink-0'
+        onClick={copytoclipboard}>
           Copy
           </button>
           <div className='pt-10'>
